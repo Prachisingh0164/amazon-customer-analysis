@@ -409,11 +409,11 @@ print(f"  t-statistic  : {t_stat:.4f}")
 print(f"  p-value      : {p_val_a:.4f}")
 print(f"  Cohen's d    : {effect_size_a:.4f} ({'small' if abs(effect_size_a)<0.3 else 'medium' if abs(effect_size_a)<0.5 else 'large'} effect)")
 if p_val_a < 0.05:
-    print("  ✅ RESULT: Statistically significant (p < 0.05)")
+    print("   RESULT: Statistically significant (p < 0.05)")
     print("     → Loyalty programme significantly increases CLV.")
     print("     → RECOMMENDATION: Roll out loyalty programme to all customers.")
 else:
-    print("  ❌ RESULT: Not statistically significant (p ≥ 0.05)")
+    print("   RESULT: Not statistically significant (p ≥ 0.05)")
     print("     → Insufficient evidence that loyalty programme affects CLV.")
 
 
@@ -453,11 +453,11 @@ print(f"  Relative churn reduction  : {churn_reduction_pct:.1f}%")
 print(f"  Chi² statistic : {chi2:.4f}")
 print(f"  p-value        : {p_val_b:.4f}  (dof={dof})")
 if p_val_b < 0.05:
-    print("  ✅ RESULT: Statistically significant (p < 0.05)")
+    print("    RESULT: Statistically significant (p < 0.05)")
     print("     → Reducing discount dependency significantly lowers churn.")
     print("     → RECOMMENDATION: Limit blanket discounts; shift budget to loyalty rewards.")
 else:
-    print("  ❌ RESULT: Not statistically significant (p ≥ 0.05)")
+    print("     RESULT: Not statistically significant (p ≥ 0.05)")
     print("     → Discount usage and churn rate are not significantly linked in this sample.")
 
 
@@ -472,7 +472,7 @@ axes[0].axvline(control_clv.mean(), color='#1565C0', linestyle='--', linewidth=1
                 label=f'Control mean ${control_clv.mean():.0f}')
 axes[0].axvline(treatment_clv.mean(), color='#2E7D32', linestyle='--', linewidth=1.5,
                 label=f'Treatment mean ${treatment_clv.mean():.0f}')
-axes[0].set_title(f'Exp A: CLV by Group\np={p_val_a:.4f} {"✅ sig" if p_val_a<0.05 else "❌ ns"}',
+axes[0].set_title(f'Exp A: CLV by Group\np={p_val_a:.4f} {"sig" if p_val_a<0.05 else "ns"}',
                   fontweight='bold')
 axes[0].set_xlabel('CLV ($)')
 axes[0].set_ylabel('Count')
@@ -490,7 +490,7 @@ for bar, val in zip(bars, churn_rates['Churn Rate']):
     axes[1].text(bar.get_x() + bar.get_width()/2,
                  bar.get_height() + 0.005,
                  f'{val:.1%}', ha='center', va='bottom', fontweight='bold')
-axes[1].set_title(f'Exp B: Churn Rate by Discount Group\np={p_val_b:.4f} {"✅ sig" if p_val_b<0.05 else "❌ ns"}',
+axes[1].set_title(f'Exp B: Churn Rate by Discount Group\np={p_val_b:.4f} {" sig" if p_val_b<0.05 else " ns"}',
                   fontweight='bold')
 axes[1].set_ylabel('Churn Rate')
 axes[1].set_ylim(0, max(rate_control, rate_treatment) * 1.3)
@@ -535,8 +535,8 @@ ab_summary = pd.DataFrame({
     'Control':        [f'${control_clv.mean():.2f}', f'{rate_control:.2%}'],
     'Treatment':      [f'${treatment_clv.mean():.2f}', f'{rate_treatment:.2%}'],
     'p-value':        [f'{p_val_a:.4f}', f'{p_val_b:.4f}'],
-    'Significant?':   ['Yes ✅' if p_val_a<0.05 else 'No ❌',
-                       'Yes ✅' if p_val_b<0.05 else 'No ❌']
+    'Significant?':   ['Yes ' if p_val_a<0.05 else 'No ',
+                       'Yes ' if p_val_b<0.05 else 'No ']
 })
 print(ab_summary.to_string(index=False))
 
@@ -620,10 +620,10 @@ print(f"\n  CLV Regression   → R² = {r2:.4f} | MAE = ${mae:.2f} | RMSE = ${rm
 print(f"  Churn Classifier → Accuracy = {accuracy*100:.2f}% | ROC-AUC = {roc_auc:.4f}")
 print(f"                     5-fold CV = {cv_acc.mean()*100:.2f}% ± {cv_acc.std()*100:.2f}%")
 print(f"\n  A/B Test A (Loyalty → CLV)")
-print(f"    p-value = {p_val_a:.4f} → {'Significant ✅' if p_val_a<0.05 else 'Not significant ❌'}")
+print(f"    p-value = {p_val_a:.4f} → {'Significant ' if p_val_a<0.05 else 'Not significant '}")
 print(f"    CLV lift = ${treatment_clv.mean()-control_clv.mean():.2f} per customer")
 print(f"\n  A/B Test B (Low Discount → Churn Reduction)")
-print(f"    p-value = {p_val_b:.4f} → {'Significant ✅' if p_val_b<0.05 else 'Not significant ❌'}")
+print(f"    p-value = {p_val_b:.4f} → {'Significant ' if p_val_b<0.05 else 'Not significant '}")
 print(f"    Churn reduction = {churn_reduction_pct:.1f}%")
 print(f"\n  Output files saved:")
 print("    eda_plots.png | clv_actual_vs_predicted.png")
